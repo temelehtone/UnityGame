@@ -12,9 +12,9 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
 
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
+    // public Transform groundCheck;
+    // public float groundDistance = 0.4f;
+    // public LayerMask groundMask;
 
     Vector3 velocity;
     bool isGrounded;
@@ -32,7 +32,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        //isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        isGrounded = true;
 
         if(isGrounded && velocity.y < 0) 
         {
