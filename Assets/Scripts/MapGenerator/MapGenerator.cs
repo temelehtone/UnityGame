@@ -18,7 +18,7 @@ public class MapGenerator : MonoBehaviour
 
     public Noise.NormalizeMode normalizeMode;
 
-    public const int MAP_CHUNK_SIZE = 241;
+    public const int MAP_CHUNK_SIZE = 239;
 
     [Range(0, 6)]
     public int editorPreviewLOD;
@@ -141,8 +141,8 @@ void Awake() {
     {
         float[,] noiseMap =
             Noise
-                .GenerateNoiseMap(MAP_CHUNK_SIZE,
-                MAP_CHUNK_SIZE,
+                .GenerateNoiseMap(MAP_CHUNK_SIZE + 2,
+                MAP_CHUNK_SIZE + 2,
                 seed,
                 noiseScale,
                 octaves,
