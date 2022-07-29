@@ -5,7 +5,7 @@ ShaderImporter:
   defaultTextures:
   - testTexture: {instanceID: 0}
   nonModifiableTextures: []
-  preprocessorOverride: 2
+  preprocessorOverride: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
