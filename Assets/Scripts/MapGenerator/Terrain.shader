@@ -32,7 +32,7 @@ Shader "Custom/Terrain" {
 		float testScale;
 
 		UNITY_DECLARE_TEX2DARRAY(baseTextures);
-
+ 
 		struct Input {
 			float3 worldPos;
 			float3 worldNormal;
