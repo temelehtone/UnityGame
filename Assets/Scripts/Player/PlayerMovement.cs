@@ -1,53 +1,77 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
+    public CharacterController controller;
+    
+    
 
-    [Header("References")]
-    [SerializeField] Rigidbody rb;
-    [SerializeField] Transform orientation;
+    public float speed = 8f;
+    public float gravity = -9.81f;
+    public float jumpHeight = 3f;
 
-    [Header("Movement")]
-    [SerializeField] float speed;
-    [SerializeField] float jumpSpeed;
-    [SerializeField] bool onGround;
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
+    public LayerMask groundMask;
 
-    [Header("Drag")]
-    [SerializeField] float drag;
+    public Transform orientation;
 
-    Vector3 moveDirection;
+    Vector3 velocity;
 
-    float horizontalInput;
-    float verticalInput;
+    Vector3 move;
+    public bool isGrounded;
 
-    void Start() => rb.freezeRotation = true;
+    // Start is called before the first frame update
+    void Start()
+    {
+        controller = GetComponent<CharacterController>();
+    }
 
+    // Update is called once per frame
     void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        moveDirection = (orientation.forward * verticalInput + orientation.right * horizontalInput).normalized;
-
-       if (!onGround) {
-            rb.drag = drag;
-       }
-
-         if (Input.GetKeyDown("space") && onGround)
+        if(isGrounded && velocity.y < 0) 
         {
-            rb.AddForce(Vector3.up * jumpSpeed * 100);
+            velocity.y = -1f;
         }
-    }
 
-    void FixedUpdate()
-    {
-        rb.AddForce(moveDirection * speed, ForceMode.Acceleration);
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+         move = (orientation.forward * z + orientation.right * x).normalized;
+
+
+
+        controller.Move(move * speed * Time.deltaTime);
+
+        if(Input.GetButtonDown("Jump") && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            speed *= 2f;
+        }
+        else if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            speed = 8f;
+        }
         
-    }
+        
 
-     void OnCollisionStay ()
-    {
-        onGround = true;
-    }
 
+
+        velocity.y += gravity * 2f * Time.deltaTime;
+
+        controller.Move(velocity * Time.deltaTime);
+
+
+
+    }
 }
+
