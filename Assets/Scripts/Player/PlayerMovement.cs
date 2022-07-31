@@ -4,34 +4,34 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
     [Header("References")]
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private Transform orientation;
+    [SerializeField] Rigidbody rb;
+    [SerializeField] Transform orientation;
 
     [Header("Movement")]
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpSpeed;
-    [SerializeField] private bool onGround;
-
-    
+    [SerializeField] float speed;
+    [SerializeField] float jumpSpeed;
+    [SerializeField] bool onGround;
 
     [Header("Drag")]
-    [SerializeField] private float drag;
+    [SerializeField] float drag;
 
-    private Vector3 moveDirection;
+    Vector3 moveDirection;
 
-    private float horizontalInput;
-    private float verticalInput;
+    float horizontalInput;
+    float verticalInput;
 
-    private void Start() => rb.freezeRotation = true;
+    void Start() => rb.freezeRotation = true;
 
-    private void Update()
+    void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
         moveDirection = (orientation.forward * verticalInput + orientation.right * horizontalInput).normalized;
 
-        rb.drag = drag;
+       if (!onGround) {
+            rb.drag = drag;
+       }
 
          if (Input.GetKeyDown("space") && onGround)
         {
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         rb.AddForce(moveDirection * speed, ForceMode.Acceleration);
         
