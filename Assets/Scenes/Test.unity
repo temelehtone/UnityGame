@@ -235,6 +235,8 @@ MonoBehaviour:
   rb: {fileID: 128496647}
   orientation: {fileID: 1578351533}
   speed: 50
+  jumpSpeed: 4
+  onGround: 0
   drag: 5
 --- !u!114 &128496649
 MonoBehaviour:

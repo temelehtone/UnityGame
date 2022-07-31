@@ -9,6 +9,10 @@ public class PlayerMovement : MonoBehaviour {
 
     [Header("Movement")]
     [SerializeField] private float speed;
+    [SerializeField] private float jumpSpeed;
+    [SerializeField] private bool onGround;
+
+    
 
     [Header("Drag")]
     [SerializeField] private float drag;
@@ -28,11 +32,22 @@ public class PlayerMovement : MonoBehaviour {
         moveDirection = (orientation.forward * verticalInput + orientation.right * horizontalInput).normalized;
 
         rb.drag = drag;
+
+         if (Input.GetKeyDown("space") && onGround)
+        {
+            rb.AddForce(Vector3.up * jumpSpeed * 100);
+        }
     }
 
     private void FixedUpdate()
     {
         rb.AddForce(moveDirection * speed, ForceMode.Acceleration);
+        
+    }
+
+     void OnCollisionStay ()
+    {
+        onGround = true;
     }
 
 }
