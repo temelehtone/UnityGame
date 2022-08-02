@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
 
+    public float smoothInputSpeed = .2f;
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
@@ -22,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 move;
     public bool isGrounded;
+
+    Vector2 currentVectorInput;
+    Vector2 smoothInputVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -36,13 +40,15 @@ public class PlayerMovement : MonoBehaviour
 
         if(isGrounded && velocity.y < 0) 
         {
-            velocity.y = -1f;
+            velocity.y = 0f;
         }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
          move = (orientation.forward * z + orientation.right * x).normalized;
+
+         Vector2.SmoothDamp(currentVectorInput, move, ref smoothInputVelocity, smoothInputSpeed);
 
 
 
