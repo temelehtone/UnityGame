@@ -1,13 +1,14 @@
 
 using UnityEngine;
 
-public class Target : MonoBehaviour
+public class Target : MonoBehaviour, IDamageable
 {
     public float health = 50f;
 
-    public void TakeDamage (float amount)
+    public void TakeDamage (float damage)
     {
-        health -= amount;
+        health -= damage;
+    
         if(health <= 0f)
         {
             Die();
