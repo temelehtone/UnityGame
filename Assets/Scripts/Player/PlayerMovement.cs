@@ -4,80 +4,45 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public CharacterController controller;
-    
-    
+    CharacterController controller;
+    Vector3 playerVelocity;
+    [SerializeField] bool groundedPlayer;
+    [SerializeField] float playerSpeed = 2.0f;
+    [SerializeField] float jumpHeight = 1.0f;
+    [SerializeField] float gravityValue = -9.81f;
 
-    public float speed = 8f;
-    public float gravity = -9.81f;
-    public float jumpHeight = 3f;
+  
 
-    public float smoothInputSpeed = .2f;
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
-
-    public Transform orientation;
-
-    Vector3 velocity;
-
-    Vector3 move;
-    public bool isGrounded;
-
-    Vector2 currentVectorInput;
-    Vector2 smoothInputVelocity;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        controller = GetComponent<CharacterController>();
+        controller = gameObject.AddComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        if(isGrounded && velocity.y < 0) 
+        groundedPlayer = controller.isGrounded;
+        if (groundedPlayer && playerVelocity.y < 0)
         {
-            velocity.y = 0f;
+            playerVelocity.y = 0f;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        controller.Move(move * Time.deltaTime * playerSpeed);
 
-         move = (orientation.forward * z + orientation.right * x).normalized;
-
-         Vector2.SmoothDamp(currentVectorInput, move, ref smoothInputVelocity, smoothInputSpeed);
-
-
-
-        controller.Move(move * speed * Time.deltaTime);
-
-        if(Input.GetButtonDown("Jump") && isGrounded)
+        if (move != Vector3.zero)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            gameObject.transform.forward = move;
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        // Changes the height position of the player..
+        if (Input.GetButtonDown("Jump") && groundedPlayer)
         {
-            speed *= 2f;
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
-        else if(Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            speed = 8f;
-        }
+
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
         
-        
-
-
-
-        velocity.y += gravity * 2f * Time.deltaTime;
-
-        controller.Move(velocity * Time.deltaTime);
-
-
-
     }
 }
 

@@ -6,17 +6,20 @@ public class Weapon : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] GunData gunData;
+    [SerializeField] Recoil recoilScript;
+  
+
 
     [SerializeField] ParticleSystem muzzleFlash;
     [SerializeField] GameObject impactEffect;
-    float timeSinceLastShot;
     [SerializeField] Camera fpsCam;
-
+    float timeSinceLastShot;
 
     void Start()
     {
         PlayerShoot.shootInput += Shoot;
         PlayerShoot.reloadInput += StartReload;
+
     }
 
     void Update()
@@ -36,7 +39,7 @@ public class Weapon : MonoBehaviour
                 if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hitInfo, gunData.maxDistance))
                 {
                     IDamageable target = hitInfo.transform.GetComponent<IDamageable>();
-                    
+
                     target?.TakeDamage(gunData.damage);
                 }
                 gunData.currentAmmo--;
@@ -50,11 +53,13 @@ public class Weapon : MonoBehaviour
     {
         muzzleFlash.Play();
 
+        recoilScript.RecoilFire();
+
         Vector3 hitNormal = hit.normal;
         hitNormal.x += 0.00001f;
 
         GameObject impact = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hitNormal));
-        Destroy(impact, 1f);
+        Destroy(impact, 5f);
     }
 
     public void StartReload()
@@ -65,6 +70,8 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    
+
     IEnumerator Reload()
     {
         gunData.reloading = true;
@@ -74,6 +81,18 @@ public class Weapon : MonoBehaviour
         gunData.currentAmmo = gunData.magSize;
 
         gunData.reloading = false;
+    }
+
+    public bool aiming
+    {
+        get
+        {
+            if (
+                Input.GetMouseButton(1))
+                return true;
+            else
+                return false;
+        }
     }
 
 }
