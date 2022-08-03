@@ -6154,6 +6154,7 @@ MonoBehaviour:
   sneakingSpeed: 2
   jumpHeight: 1
   gravityValue: -9.81
+  orientation: {fileID: 1796404843}
   groundedPlayer: 0
 --- !u!114 &1725173779
 MonoBehaviour:

@@ -12,14 +12,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float sneakingSpeed = 2.0f;
     [SerializeField] float jumpHeight = 1.0f;
     [SerializeField] float gravityValue = -9.81f;
+    [SerializeField] Transform orientation;
 
     CharacterController controller;
+    [HideInInspector]
     public bool groundedPlayer;
     bool isAiming;
     Vector3 playerVelocity;
     float movementSpeed;
     
-
+    Vector3 move;
   
 
     private void Start()
@@ -40,8 +42,10 @@ public class PlayerMovement : MonoBehaviour
         if (isSneaking || isAiming) movementSpeed = sneakingSpeed;
         else movementSpeed = playerSpeed;
         
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
 
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        move = (orientation.forward * z + orientation.right * x).normalized;
         controller.Move(move * Time.deltaTime * movementSpeed);
 
         if (move != Vector3.zero)
