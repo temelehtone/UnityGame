@@ -264,10 +264,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70a7903abb6229e4491581ffd0b56048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundedPlayer: 0
+  weaponScript: {fileID: 1424767249}
   playerSpeed: 8
+  sneakingSpeed: 2
   jumpHeight: 1
   gravityValue: -9.81
+  groundedPlayer: 0
 --- !u!1 &227937124
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,8 +762,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e3e75000bdf4c64fa97b73fd8ad38e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smooth: 8
-  multiplier: 4
+  smooth: 4
+  multiplier: 2
 --- !u!1 &834531350
 GameObject:
   m_ObjectHideFlags: 0
@@ -6014,10 +6016,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bded6d740ef5a8ea7bd6e731c39f6adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRigidbody: {fileID: 0}
   restingSize: 40
   maxSize: 150
-  speed: 2
+  speed: 5
 --- !u!1001 &1260500511
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6453,6 +6454,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 912471032}
   impactEffect: {fileID: 1779961840}
   fpsCam: {fileID: 834531354}
+  aimSpeed: 4
 --- !u!1 &1578351532
 GameObject:
   m_ObjectHideFlags: 0

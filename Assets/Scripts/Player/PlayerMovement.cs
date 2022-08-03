@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    CharacterController controller;
-    Vector3 playerVelocity;
-    [SerializeField] bool groundedPlayer;
-    [SerializeField] float playerSpeed = 2.0f;
+    [Header("Scripts")]
+    [SerializeField] Weapon weaponScript;
+    [Header("Settings")]
+    
+    [SerializeField] float playerSpeed = 5.0f;
+    [SerializeField] float sneakingSpeed = 2.0f;
     [SerializeField] float jumpHeight = 1.0f;
     [SerializeField] float gravityValue = -9.81f;
+
+    CharacterController controller;
+    public bool groundedPlayer;
+    bool isAiming;
+    Vector3 playerVelocity;
+    float movementSpeed;
+    
 
   
 
@@ -26,8 +35,14 @@ public class PlayerMovement : MonoBehaviour
             playerVelocity.y = 0f;
         }
 
+        isAiming = weaponScript.aiming;
+
+        if (isSneaking || isAiming) movementSpeed = sneakingSpeed;
+        else movementSpeed = playerSpeed;
+        
+
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        controller.Move(move * Time.deltaTime * playerSpeed);
+        controller.Move(move * Time.deltaTime * movementSpeed);
 
         if (move != Vector3.zero)
         {
@@ -43,6 +58,13 @@ public class PlayerMovement : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
         
+    }
+
+    public bool isSneaking {
+        get {
+            if (Input.GetKey(KeyCode.LeftShift)) return true;
+            else return false;
+        }
     }
 }
 

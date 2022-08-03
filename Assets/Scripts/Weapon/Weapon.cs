@@ -7,19 +7,30 @@ public class Weapon : MonoBehaviour
     [Header("References")]
     [SerializeField] GunData gunData;
     [SerializeField] Recoil recoilScript;
-  
+
 
 
     [SerializeField] ParticleSystem muzzleFlash;
     [SerializeField] GameObject impactEffect;
     [SerializeField] Camera fpsCam;
+    [Header("Settings")]
+    [SerializeField] float aimSpeed;
     float timeSinceLastShot;
+
+    GameObject weaponHolder;
+    Vector3 aimPosition;
+    Vector3 weaponHolderPosition;
+    GameObject reticle;
 
     void Start()
     {
         PlayerShoot.shootInput += Shoot;
         PlayerShoot.reloadInput += StartReload;
+        weaponHolder = GameObject.Find("Weapon Holder");
+        aimPosition = new Vector3(0, -0.08f, 0);
+        weaponHolderPosition = weaponHolder.transform.localPosition;
 
+        reticle = GameObject.Find("Reticle");
     }
 
     void Update()
@@ -70,7 +81,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    
+
 
     IEnumerator Reload()
     {
@@ -83,15 +94,31 @@ public class Weapon : MonoBehaviour
         gunData.reloading = false;
     }
 
+    void StartAiming() {
+        
+        weaponHolder.transform.localPosition = Vector3.Lerp(weaponHolder.transform.localPosition, aimPosition, aimSpeed * Time.deltaTime);
+        reticle.SetActive(false);
+    }
+    void StopAiming() {
+        weaponHolder.transform.localPosition = Vector3.Lerp(weaponHolder.transform.localPosition, weaponHolderPosition, aimSpeed * Time.deltaTime);
+        reticle.SetActive(true);
+    }
+
     public bool aiming
     {
         get
         {
             if (
                 Input.GetMouseButton(1))
+            {
+                StartAiming();
                 return true;
+            }
             else
+            {
+                StopAiming();
                 return false;
+            }
         }
     }
 

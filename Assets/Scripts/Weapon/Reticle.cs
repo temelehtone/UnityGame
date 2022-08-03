@@ -7,29 +7,31 @@ public class Reticle : MonoBehaviour
 {
     private RectTransform reticle; // The RecTransform of reticle UI element.
 
-    public Rigidbody playerRigidbody;
-
-    public float restingSize;
-    public float maxSize;
-    public float speed;
+    [SerializeField] float restingSize;
+    [SerializeField] float maxSize;
+    [SerializeField] float speed;
     private float currentSize;
 
-    private void Start() {
+    private void Start()
+    {
 
         reticle = GetComponent<RectTransform>();
 
     }
 
-    private void Update() {
+    private void Update()
+    {
 
-        // Check if player is currently moving and Lerp currentSize to the appropriate value.
-        if (isMoving) {
+        
+        if (isMoving)
+        {
             currentSize = Mathf.Lerp(currentSize, maxSize, Time.deltaTime * speed);
-        } else {
+        }
+        else
+        {
             currentSize = Mathf.Lerp(currentSize, restingSize, Time.deltaTime * speed);
         }
 
-        // Set the reticle's size to the currentSize value.
         reticle.sizeDelta = new Vector2(currentSize, currentSize);
 
     }
@@ -41,7 +43,7 @@ public class Reticle : MonoBehaviour
             if (
                 Input.GetAxis("Horizontal") != 0 ||
                 Input.GetAxis("Vertical") != 0
-    
+
                     )
                 return true;
             else
