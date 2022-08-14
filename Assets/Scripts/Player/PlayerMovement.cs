@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
-            playerVelocity.y = 0f;
+            playerVelocity.y = -1f;
         }
 
         isAiming = weaponScript.aiming;

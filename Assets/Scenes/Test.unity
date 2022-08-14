@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.19216529, g: 0.20452479, b: 0.20224844, a: 1}
+  m_IndirectSpecularColor: {r: 0.19190288, g: 0.2043851, b: 0.20214508, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -269,6 +269,7 @@ MonoBehaviour:
   sneakingSpeed: 2
   jumpHeight: 1
   gravityValue: -9.81
+  orientation: {fileID: 1578351533}
   groundedPlayer: 0
 --- !u!1 &227937124
 GameObject:
