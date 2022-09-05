@@ -46,6 +46,7 @@ public class Weapon : MonoBehaviour
         {
             if (CanShoot())
             {
+                
                 RaycastHit hitInfo;
                 if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hitInfo, gunData.maxDistance))
                 {
