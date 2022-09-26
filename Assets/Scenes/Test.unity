@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponScript: {fileID: 1424767249}
-  playerSpeed: 8
+  playerSpeed: 5
   sneakingSpeed: 2
   jumpHeight: 1
   gravityValue: -9.81
